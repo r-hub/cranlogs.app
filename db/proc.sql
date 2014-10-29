@@ -122,3 +122,53 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+-- ---------------------------------------------------------
+
+
+CREATE OR REPLACE FUNCTION cl_daily_json(
+  _period VARCHAR DEFAULT NULL,
+  _package VARCHAR DEFAULT NULL)
+RETURNS JSON AS $$
+DECLARE
+  _start DATE;
+  _end DATE;
+  _end1 DATE;
+  _start_end DATE[];
+  _result RECORD;
+BEGIN
+
+  _start_end := cl_get_period(_period);
+  _start := _start_end[1];
+  _end := _start_end[2];
+  _end1 := _start_end[3];
+
+  -- -------------------------------------------
+  -- Do the actual query
+
+  IF _package IS NULL THEN
+    SELECT json_agg(row) AS downloads, _start AS start, _end AS end
+      INTO _result FROM (
+      SELECT daily.day AS day, sum(daily.count) AS downloads
+      FROM daily WHERE daily.day >= _start AND daily.day < _end1
+      GROUP BY daily.day
+      ORDER BY daily.day
+    ) row;
+
+  ELSE
+    SELECT json_agg(row) AS downloads, _start AS start, _end AS end,
+           _package AS package
+      INTO _result FROM (
+      SELECT daily.day AS day, sum(daily.count) AS downloads
+      FROM daily where daily.day >= _start AND daily.day < _end1 AND
+           daily.package = _package
+      GROUP BY daily.day
+      ORDER BY daily.day
+    ) row;
+
+  END IF;
+
+  RETURN row_to_json(_result);
+
+END;
+$$ LANGUAGE plpgsql;
