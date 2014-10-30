@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var pg = require('pg');
 
-var conString = "";
+var conString = process.env.DATABASE_URL;
+console.log(conString);
 
 var re_pre = '^\\/(total|daily)\\/';
 var re_key = 'last-day|last-week|last-month'
@@ -17,7 +18,7 @@ router.get(re_full, function(req, res) {
     var which = req.params[0];
     var interval = req.params[1];
     var package = req.params[2];
-    var db_res = do_query(res, which, interval, package);
+    do_query(res, which, interval, package);
 });
 
 function do_query(res, which, interval, package) {
@@ -30,6 +31,7 @@ function do_query(res, which, interval, package) {
 	var q = 'SELECT ' + fun + '(\'' + interval + '\', ' + pkg + ')';
 
 	client.query(q, function(err, result) {
+	    res.set('Content-Type', 'application/json');
 	    res.send(result['rows'][0][fun]);
 	});
     });
