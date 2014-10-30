@@ -24,17 +24,23 @@ router.get(re_full, function(req, res) {
 function do_query(res, which, interval, package) {
     pg.connect(conString, function(err, client, done) {
 
-	if (err) { return console.error('error running query', err); }
+	if (err) {
+	    done();
+	    return console.error('error running query', err);
+	}
+	
 
 	var fun = which == 'total' ? 'cl_total_json' : 'cl_daily_json';
 	var pkg = package ? '\'' + package + '\'' : 'NULL';
 	var q = 'SELECT ' + fun + '(\'' + interval + '\', ' + pkg + ')';
 
 	client.query(q, function(err, result) {
+	    done();
 	    res.set('Content-Type', 'application/json');
 	    res.send(result['rows'][0][fun]);
 	});
     });
+    
 }
 
 router.get('/', function(req, res) {
