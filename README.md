@@ -24,34 +24,33 @@ If there was no package given, then that key is missing.
 ### Examples
 
 All packages, last day:
-```
-/downloads/total/last-day
-```
+
+> [`/downloads/total/last-day`](http://cranlogs.r-pkg.org/downloads/total/last-day)
 
 All packages, specific date:
-```
-/downloads/total/2014-02-01
-```
+
+> [`/downloads/total/2014-02-01`](http://cranlogs.r-pkg.org/downloads/total/2014-02-01)
+
 
 Package `ggplot2`, last week:
-```
-/downloads/total/last-week/ggplot2
-```
+
+> [`/downloads/total/last-week/ggplot2`](http://cranlogs.r-pkg.org/downloads/total/last-week/ggplot2)
+
 
 Package `ggplot2`, given 7-day period:
-```
-/downloads/total/2014-02-01:2014-02-08/ggplot2
-```
+
+> [`/downloads/total/2014-02-01:2014-02-08/ggplot2`](http://cranlogs.r-pkg.org/downloads/total/2014-02-01:2014-02-08/ggplot2)
+
 
 Package `ggplot2`, last 30 days:
-```
-/downloads/total/last-month/jquery
-```
+
+> [`/downloads/total/last-month/ggplot2`](http://cranlogs.r-pkg.org/downloads/total/last-month/ggplot2)
+
 
 Package "ggplot2", specific month:
-```
-/downloads/total/2014-01-01:2014-01-31/ggplot2
-```
+
+> [`/downloads/total/2014-01-01:2014-01-31/ggplot2`](http://cranlogs.r-pkg.org/downloads/total/2014-01-01:2014-01-31/ggplot2)
+
 
 ### Accepted values
 
@@ -93,21 +92,20 @@ Again, if no package was specified, then that key is missing.
 ### Examples
 
 Downloads per day, last 7 days:
-```
-/downloads/range/last-week
-```
+
+> [`/downloads/daily/last-week`](http://cranlogs.r-pkg.org/downloads/daily/last-week)
+
 
 Downloads per day, specific 7 days:
-```
-/downloads/range/2014-02-07:2014-02-14
-```
+
+> [`/downloads/daily/2014-02-07:2014-02-14`](http://cranlogs.r-pkg.org/downloads/daily/2014-02-07:2014-02-14)
+
 
 Downloads per day, last 30 days:
-```
-/downloads/range/last-month/ggplot2
-```
+
+> [`/downloads/daily/last-month/ggplot2`](http://cranlogs.r-pkg.org/downloads/daily/last-month/ggplot2)
+
 
 Downloads per day, specific 30 day period:
-```
-/downloads/range/2014-01-03:2014-02-03/ggplot2
-```
+
+> [`/downloads/daily/2014-01-03:2014-02-03/ggplot2`](http://cranlogs.r-pkg.org/downloads/daily/2014-01-03:2014-02-03/ggplot2)
