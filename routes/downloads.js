@@ -9,7 +9,7 @@ var re_key = 'last-day|last-week|last-month'
 var re_date = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';
 var re_dates = re_date + ':' + re_date;
 var re_int = '(' + re_key + '|' + re_date + '|' + re_dates + ')';
-var re_pkg = '(?:\\/(\\w+))?';
+var re_pkg = '(?:\\/([\\w\\.]+))?';
 var re_suf = '$';
 var re_full = new RegExp(re_pre + re_int + re_pkg + re_suf, 'i');
 
