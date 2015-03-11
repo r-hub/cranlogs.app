@@ -11,12 +11,12 @@ The output is JSON. API inspired by the
 The output looks like this:
 
 ```json
-{
+[{
   downloads: 201761,
   start: "2014-06-01",
   end: "2014-06-30",
   package: "ggplot2"
-}
+}]
 ```
 
 If there was no package given, then that key is missing.
@@ -74,7 +74,7 @@ in which case it is the day before.
 Output looks like this:
 
 ```json
-{
+[{
     downloads: [
         {
             day: "2014-09-27",
@@ -89,7 +89,7 @@ Output looks like this:
     start: "2014-09-27",
     end: "2014-10-04",
     package: "ggplot2"
-}
+}]
 ```
 
 Again, if no package was specified, then that key is missing.
