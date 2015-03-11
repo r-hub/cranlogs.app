@@ -6,7 +6,7 @@
 The output is JSON. API inspired by the
 [`download-counts` npm package.](https://github.com/npm/download-counts)
 
-## Total downloads over a period `/downloads/total/{period}[/{package}]`
+## Total downloads over a period `/downloads/total/{period}[/{package1,package2,...}]`
 
 The output looks like this:
 
@@ -50,6 +50,11 @@ Package `ggplot2`, last 30 days:
 Package "ggplot2", specific month:
 
 > [`/downloads/total/2014-01-01:2014-01-31/ggplot2`](http://cranlogs.r-pkg.org/downloads/total/2014-01-01:2014-01-31/ggplot2)
+
+
+Multiple packages at once:
+
+> [`/downloads/total/last-day/igraph,ggplot2,Rcpp`](http://cranlogs.r-pkg.org/downloads/total/last-day/igraph,ggplot2,Rcpp)
 
 
 ### Accepted values
