@@ -43,7 +43,9 @@ var re_full = new RegExp(re_pre + re_pkg + re_suf, 'i');
 
 router.get(re_full, function(req, res) {
     var package = req.params[0];
+    var now = new Date().toUTCString();
     res.set('Content-Type', 'image/svg+xml');
+    res.set('Expires', now);
     do_query(res, package);
 });
 
