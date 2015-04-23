@@ -9,6 +9,7 @@ var fs = require('fs')
 var downloads = require('./routes/downloads');
 var top       = require('./routes/top');
 var trending  = require('./routes/trending');
+var badges    = require('./routes/badges');
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/downloads', downloads);
 app.use('/top', top);
 app.use('/trending', trending);
+app.use('/badges', badges);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
