@@ -12,6 +12,17 @@ var svg_params = {
     "last-day":    { "width": 134, "textwidth": 101,   "path_d": 64 }
 };
 
+var svg_colors = {
+    "brightgreen": "4c1",
+    "green": "97CA00",
+    "yellowgreen": "a4a61d",
+    "yellow": "dfb317",
+    "orange": "fe7d37",
+    "red": "e05d44",
+    "lightgrey": "9f9f9f",
+    "blue": "007ec6"
+};
+
 var badge_svg = multiline(function(){/*
 <svg xmlns="http://www.w3.org/2000/svg" width=":width:" height="20">
   <linearGradient id="b" x2="0" y2="100%">
@@ -22,7 +33,7 @@ var badge_svg = multiline(function(){/*
     <rect width=":width:" height="20" rx="3" fill="#fff"/>
   </mask>
   <g mask="url(#a)"><path fill="#555" d="M0 0h70v20H0z"/>
-    <path fill="#007ec6" d="M70 0h:path_d:v20H70z"/>
+    <path fill=":color:" d="M70 0h:path_d:v20H70z"/>
     <path fill="url(#b)" d="M0 0h:width:v20H0z"/>
   </g>
   <g fill="#fff" text-anchor="middle"
@@ -55,16 +66,16 @@ var re_old = new RegExp(re_pre + re_pkg + re_suf, 'i');
 router.get(re_full, function(req, res) {
     var interval = req.params[0];
     var package = req.params[1] || req.params[0];
-    do_query(res, package, interval);
+    do_query(res, package, interval, req.query);
 });
 
 router.get(re_old, function(req, res) {
     var package = req.params[0];
     var interval = 'last-month';
-    do_query(res, package, interval);
+    do_query(res, package, interval, req.query);
 });
 
-function do_query(res, package, interval) {
+function do_query(res, package, interval, query) {
 
     var now = new Date().toUTCString();
     res.set('Content-Type', 'image/svg+xml');
@@ -81,14 +92,14 @@ function do_query(res, package, interval) {
 	}
 
 	if (interval == "grand-total") {
-	    do_total(res, client, package, done)
+	    do_total(res, client, package, done, query)
 	} else {
-	    do_interval(res, client, package, interval, done)
+	    do_interval(res, client, package, interval, done, query)
 	}
     });
 }
 
-function do_total(res, client, package, done) {
+function do_total(res, client, package, done, query) {
 
     var q = 'SELECT SUM(count) FROM DAILY WHERE package = \'' +
 	package + '\'';
@@ -104,7 +115,7 @@ function do_total(res, client, package, done) {
 	var sum = pretty_count(result['rows'][0]['sum']);
 	var params = svg_params['grand-total'];
 	params['count'] = sum;
-	var svg = svg_template(badge_svg, params);
+	var svg = svg_template(badge_svg, params, query);
 
 	done();
 
@@ -114,11 +125,10 @@ function do_total(res, client, package, done) {
     });
 }
 
-function do_interval(res, client, package, interval, done) {
+function do_interval(res, client, package, interval, done, query) {
 
     var q = 'SELECT cl_total_json(\'' + interval + '\', \'' +
 	package + '\')';
-    console.log(q);
 
     client.query(q, function(err, result) {
 	if (err) {
@@ -133,7 +143,7 @@ function do_interval(res, client, package, interval, done) {
 	sum = sum + "/" + interval.replace('last-', '');
 	var params = svg_params[interval]
 	params['count'] = sum;
-	var svg = svg_template(badge_svg, params);
+	var svg = svg_template(badge_svg, params, query);
 
 	done();
 
@@ -144,13 +154,18 @@ function do_interval(res, client, package, interval, done) {
     });
 }
 
-function svg_template(svg, params) {
+function svg_template(svg, params, query) {
     for (var key in params) {
 	if (params.hasOwnProperty(key)) {
 	    var regexp = new RegExp(':' + key + ":", 'g')
 	    svg = svg.replace(regexp, params[key])
 	}
     }
+
+    var color = query['color'] || "blue";
+    color = svg_colors[color] || color;
+    svg = svg.replace(/:color:/g, '#' + color.replace(/[^\w]/g, ''));
+    
     return svg;
 }
 
