@@ -1,0 +1,38 @@
+
+body {
+    margin-top: 20px;
+}
+
+h1 {
+    margin-top: 15px;
+}
+
+ul.menu {
+    list-style-type: none;
+    margin-left: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: red;
+}
+
+form {
+    margin-bottom: 0px;
+}
+
+pre {
+    padding-top: 5px;
+}
+
+span.output {
+    color: #888;
+}
+
+img.badge {
+    width: 200px;
+    height: auto;
+}

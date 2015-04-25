@@ -5,17 +5,19 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs')
+var whiskers = require('whiskers');
 
 var downloads = require('./routes/downloads');
 var top       = require('./routes/top');
 var trending  = require('./routes/trending');
 var badges    = require('./routes/badges');
+var index     = require('./routes/index');
 
 var app = express();
 
 // view engine setup
+app.engine('.html', whiskers.__express);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -35,6 +37,7 @@ app.use('/downloads', downloads);
 app.use('/top', top);
 app.use('/trending', trending);
 app.use('/badges', badges);
+app.use('/', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
