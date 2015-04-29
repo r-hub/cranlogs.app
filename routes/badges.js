@@ -80,6 +80,7 @@ function do_query(res, package, interval, query) {
     var now = new Date().toUTCString();
     res.set('Content-Type', 'image/svg+xml');
     res.set('Expires', now);
+    res.set('Cache-Control', 'no-cache');
 
     pg.connect(conString, function(err, client, done) {
 
