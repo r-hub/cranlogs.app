@@ -4,9 +4,9 @@
 #### General remarks
 
 The download count data was provided by the
-[RStudio CRAN mirror](http://cran-logs.rstudio.com/)
+[RStudio CRAN mirror](http://cran-logs.rstudio.com/).
 The output is JSON. The API was inspired by the
-[`download-counts` npm package.](https://github.com/npm/download-counts)
+[`download-counts` npm package](https://github.com/npm/download-counts),
 and adapted to R.
 
 #### Badges `/badges[/{summary}]/{package}[?color={color}]`
@@ -45,6 +45,8 @@ Colors can be customized. Supported color names are:
 The badge is blue by default, as above. Other colors in
 the same order, and the hex color `ff69b4`:
 
+> `http://cranlogs.r-pkg.org/badges/Rcpp?color=brightgreen`
+>
 > ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=brightgreen)
 > ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=green)
 > ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=yellowgreen)
