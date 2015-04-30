@@ -18,7 +18,7 @@
        function update1() {
 	 var pkg = document.getElementById("package").value;
 	 var url = "http://cranlogs.r-pkg.org/badges/" + pkg;
-	 var md = "[![Build Status](http://cranlogs.r-pkg.org/badges/" +
+	 var md = "[![](http://cranlogs.r-pkg.org/badges/" +
 		  pkg + ")](http://cran.rstudio.com/web/packages/" +
 		  pkg + "/index.html)";
 	 document.getElementById("url").value = url;
@@ -56,7 +56,7 @@
 	       value="http://cranlogs.r-pkg.org/badges/ggplot2" id="url">
 	<label for="markdown">MarkDown</label>
 	<textarea class="u-full-width" id="markdown" readonly="readonly">
-[![Build Status](http://cranlogs.r-pkg.org/badges/ggplot2)](http://cran.rstudio.com/web/packages/ggplot2/index.html)
+[![](http://cranlogs.r-pkg.org/badges/ggplot2)](http://cran.rstudio.com/web/packages/ggplot2/index.html)
 	</textarea>
       </form>
       
