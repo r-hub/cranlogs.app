@@ -21,7 +21,7 @@ function do_day() {
     trap "rm -f $filename" EXIT
     
     echo -n "Downloading $day,"
-    curl -s -O $(echo $url | sed "s/<date>/$day/")
+    curl -f -s -O $(echo $url | sed "s/<date>/$day/") || return
 
     echo -n " parsing"
     filename2=$day.sql
