@@ -16,27 +16,7 @@ router.get(re_full, function(req, res) {
 	    return  true
 	}
 
-	var select1 = 'SELECT package, SUM(count) AS cnt ' +
-	    'FROM daily ' +
-	    'WHERE day >= (NOW() - INTERVAL \'8 DAYS\') ' +
-	    'AND day < NOW() ' +
-	    'GROUP BY package ' +
-	    'HAVING SUM(count) >= 1000 ' +
-	    'ORDER BY package ';
-
-	var select2 = 'SELECT package, SUM(count) AS cnt ' +
-	    'FROM daily ' +
-	    'WHERE day >= (NOW() - INTERVAL \'176 DAYS\') ' +
-	    'AND day < (NOW() - INTERVAL \'8 DAYS\') ' +
-	    'GROUP BY package ' +
-	    'ORDER BY package';
-
-	var q = 'SELECT t1.package, 24 * t1.cnt / t2.cnt * 100 AS increase ' +
-	    'FROM (' + select1 + ') AS t1, ' +
-	    '(' + select2 + ') AS t2 ' +
-	    'WHERE t1.package = t2.package ' +
-	    'ORDER BY increase DESC ' +
-	    'LIMIT 20';
+	var q = 'SELECT * FROM trending';
 
 	client.query(q, function(err, result) {
 	    if (err) {

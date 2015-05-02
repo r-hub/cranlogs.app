@@ -5,13 +5,10 @@ var pg = require('pg');
 var conString = process.env.DATABASE_URL;
 
 var re_pre = "^\\/";
-var re_key = 'last-day|last-week|last-month';
-var re_date = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';
-var re_dates = re_date + ':' + re_date;
-var re_int = '(' + re_key + '|' + re_date + '|' + re_dates + ')';
+var re_key = '(last-day|last-week|last-month)';
 var re_num = '(?:\\/([0-9]+))?';
 var re_suf = '$';
-var re_full = new RegExp(re_pre + re_int + re_num + re_suf, 'i');
+var re_full = new RegExp(re_pre + re_key + re_num + re_suf, 'i');
 
 router.get(re_full, function(req, res) {
     var interval = req.params[0];
@@ -28,53 +25,37 @@ function do_query(req, res, interval, howmany) {
 	    return true
 	}
 
-	var q = 'SELECT cl_get_period(\'' + interval + '\') AS dates'
+	var table = interval.replace(/^last-/, 'top_');
+	var q = 'SELECT *, cl_get_period(\'' + interval + '\') FROM ' +
+	    table + ' LIMIT ' + howmany;
 
+	console.log(q)
+	
 	client.query(q, function(err, result) {
 	    if (err) {
 		handle_error(client, done, res)
 		return true
 	    }
 
-	    var dates = result['rows'][0]['dates']
-	    var start = dates[0]
-	    var end = dates[2]
-	    do_query2(client, done, res, howmany, start, end)
+	    done(client)
+
+	    var start = result['rows'][0]['cl_get_period'][0];
+	    var end = result['rows'][0]['cl_get_period'][1];
+	    var downloads = result['rows'].map(
+		function(x) { return { 'package': x['package'],
+				       'downloads': x['downloads'] }
+			    });
+	    
+	    var resobj = { 'start': start,
+			   'end': end,
+			   'downloads': downloads };
+	    
+	    res.set(200)
+	    res.end(JSON.stringify(resobj))
+	    
 	});
 
     });
-}
-
-function do_query2(client, done, res, howmany, start, end) {
-
-    var q = 'SELECT package, SUM(count) AS downloads ' +
-	'FROM daily ' +
-	'WHERE day >= \'' + start.toISOString() +
-	'\' AND day < \'' + end.toISOString() + '\' ' +
-	'GROUP BY package ' +
-	'ORDER BY downloads DESC ' +
-	'LIMIT ' + howmany
-
-    client.query(q, function(err, result) {
-	if (err) {
-	    handle_error(client, done, res)
-	    return true
-	}
-	done(client)
-
-	var resobj = { 'start': formatDate(start),
-		       'end': formatDate(end),
-		       'downloads': result['rows'] }
-
-	res.set(200)
-	res.end(JSON.stringify(resobj))
-    })
-}
-
-function formatDate(d) {
-    return d.getUTCFullYear() + '-' +
-	("0" + d.getUTCMonth()).substr(-2, 2) + '-' +
-	("0" + d.getUTCDate()).substr(-2, 2)
 }
 
 function handle_error(client, done, res) {
