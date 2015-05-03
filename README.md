@@ -58,6 +58,58 @@ the same order, and the hex color `ff69b4`:
 
 Our badges were designed and created by [shields.io](http://shields.io).
 
+#### Top downloaded packages `/top/{period}[/count]`
+
+`period` must be one of `last-day`, `last-week` or `last-month`, and `count` is the 
+number of packages to show. `count` can be at most 100 currently. Example output for
+`http://cranlogs.r-pkg.org/top/last-day/3`
+
+```js
+{
+  start: "2015-05-01T00:00:00.000Z",
+  end: "2015-05-01T00:00:00.000Z",
+  downloads: [
+    {
+      package: "Rcpp",
+      downloads: "5010"
+    },
+    {
+      package: "ggplot2",
+      downloads: "4329"
+    },
+    {
+      package: "plyr",
+      downloads: "4121"
+    }
+  ]
+}
+```
+
+#### Trending packages last week `/trending`
+
+Treding packages are the ones that were downloaded at least 1000 times during last 
+week, and that substantially increased their download counts, compared to the 
+average weekly downloads in the previous 24 weeks. The percentage of increase
+is also shown in the output:
+
+```js
+[
+  {
+    package: "fpp",
+    increase: "914.4002185991438200"
+  },
+  {
+    package: "TSA",
+    increase: "764.1159377095596500"
+  },
+  {
+    package: "readr",
+    increase: "662.9005975013579600"
+  },
+...
+```
+
+
 #### Total downloads over a period `/downloads/total/{period}[/{package1,package2,...}]`
 
 The output looks like this:
