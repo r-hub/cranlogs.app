@@ -1,4 +1,6 @@
 
+APP=cranlogs
+
 read -r -d '' CREATE_DB <<'EOF'
 CREATE TABLE daily (
   day DATE,
@@ -10,7 +12,7 @@ CREATE INDEX idx_daily_day ON daily(day);
 CREATE INDEX idx_daily_package ON daily(package);
 EOF
 
-echo "$CREATE_DB" | dokku psql:restore_sql cranlogs
+echo "$CREATE_DB" | dokku psql:restore_sql $APP
 
 read -r -d '' ADD_VIEWS <<'EOF'
 CREATE MATERIALIZED VIEW top_day AS
@@ -72,7 +74,7 @@ CREATE TRIGGER trig_refresh_views AFTER TRUNCATE OR INSERT OR UPDATE OR DELETE
 
 EOF
 
-echo "$ADD_VIEWS" | dokku psql:restore_sql cranlogs
+echo "$ADD_VIEWS" | dokku psql:restore_sql $APP
 
 read -r -d '' CREATE_DB_R <<'EOF'
 CREATE TABLE dailyr (
@@ -84,7 +86,6 @@ CREATE TABLE dailyr (
 CREATE INDEX idx_dailyr_day ON dailyr(day);
 CREATE INDEX idx_dailyr_day_version ON dailyr(day, version);
 CREATE INDEX idx_dailyr_day_os ON dailyr(day, os);
-ALTER TABLE dailyr OWNER TO cranlogs;
 EOF
 
-echo "$CREATE_DB_R" | dokku psql:restore_sql cranlogs
+echo "$CREATE_DB_R" | dokku psql:restore_sql $APP
