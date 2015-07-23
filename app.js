@@ -13,6 +13,7 @@ var trending  = require('./routes/trending');
 var badges    = require('./routes/badges');
 var index     = require('./routes/index');
 var ping      = require('./routes/ping');
+var check     = require('./routes/check');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/check', check);
 app.use('/downloads', downloads);
 app.use('/top', top);
 app.use('/trending', trending);
