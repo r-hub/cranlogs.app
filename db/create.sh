@@ -73,3 +73,18 @@ CREATE TRIGGER trig_refresh_views AFTER TRUNCATE OR INSERT OR UPDATE OR DELETE
 EOF
 
 echo "$ADD_VIEWS" | dokku psql:restore_sql cranlogs
+
+read -r -d '' CREATE_DB_R <<'EOF'
+CREATE TABLE dailyr (
+  day DATE,
+  version VARCHAR(50),
+  os VARCHAR(5),
+  count BIGINT
+);
+CREATE INDEX idx_dailyr_day ON dailyr(day);
+CREATE INDEX idx_dailyr_day_version ON dailyr(day, version);
+CREATE INDEX idx_dailyr_day_os ON dailyr(day, os);
+ALTER TABLE dailyr OWNER TO cranlogs;
+EOF
+
+echo "$CREATE_DB_R" | dokku psql:restore_sql cranlogs
