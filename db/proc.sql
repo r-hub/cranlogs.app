@@ -85,6 +85,11 @@ BEGIN
     INTO _result
     FROM daily WHERE day >= _start AND day < _end1;
 
+  ELSIF _package = 'R' THEN
+    SELECT _start AS start, _end AS end, SUM(count) AS downloads
+    INTO _result
+    FROM dailyr WHERE day >= _start AND day < _end1;
+
   ELSE
     SELECT _start AS start, _end AS end, SUM(count) AS downloads, _package AS package
     INTO _result
@@ -153,6 +158,16 @@ BEGIN
       FROM daily WHERE daily.day >= _start AND daily.day < _end1
       GROUP BY daily.day
       ORDER BY daily.day
+    ) row;
+
+  ELSIF _package = 'R' THEN
+    SELECT json_agg(row) AS downloads, _start AS start, _end AS end
+      INTO _result FROM (
+      SELECT dailyr.day AS day, dailyr.os AS os, dailyr.version AS version,
+             sum(dailyr.count) AS downloads
+      FROM dailyr WHERE dailyr.day >= _start AND dailyr.day < _end1
+      GROUP BY dailyr.day, dailyr.os, dailyr.version
+      ORDER BY dailyr.day
     ) row;
 
   ELSE

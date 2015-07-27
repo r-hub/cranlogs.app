@@ -35,36 +35,47 @@ function do_query(res, which, interval, package) {
 	    return true;
 	}
 
-	var allres = [ ]
-	var reslen = package ? package.length : 1
-	function save_result(result) {
-	    allres.push(result)
-	    if (allres.length == reslen) {
-		done()
-		res.set(200)
-		res.send(allres)
-		res.end();
-	    }
+	// Remove 'R' if not by itself
+	if (package && package.length &&
+	    (package.length != 1 || package[0] != 'R')) {
+	    package = package.filter(function(x) { return x != 'R'; });
 	}
 
-	var fun = which == 'total' ? 'cl_total_json' : 'cl_daily_json';
-	(package || ['NULL']).map(function(pkg) {
-	    var q = 'SELECT ' + fun + '(\'' + interval + '\', ' + pkg + ')';
-
-	    client.query(q, function(err, result) {
-		if (err) {
-		    done();
-		    res.set(500);
-		    res.end('{ "error": Cannot query DB", ' +
-			    '  "email": "csardi.gabor+cranlogs@gmail.com" }');
-		    return true;
-		}
-
-		save_result(result['rows'][0][fun])
-
-	    })
-	})
+	do_pkg_query(res, which, interval, package, client, done);
     });
+}
+
+function do_pkg_query(res, which, interval, package, client, done) {
+
+    var allres = [ ]
+    var reslen = package ? package.length : 1
+    function save_result(result) {
+	allres.push(result)
+	if (allres.length == reslen) {
+	    done()
+	    res.set(200)
+	    res.send(allres)
+	    res.end();
+	}
+    }
+
+    var fun = which == 'total' ? 'cl_total_json' : 'cl_daily_json';
+    (package || ['NULL']).map(function(pkg) {
+	var q = 'SELECT ' + fun + '(\'' + interval + '\', ' + pkg + ')';
+
+	client.query(q, function(err, result) {
+	    if (err) {
+		done();
+		res.set(500);
+		res.end('{ "error": Cannot query DB", ' +
+			'  "email": "csardi.gabor+cranlogs@gmail.com" }');
+		return true;
+	    }
+
+	    save_result(result['rows'][0][fun])
+
+	})
+    })
 }
 
 router.get('/', function(req, res) {
