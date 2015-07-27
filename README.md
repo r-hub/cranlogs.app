@@ -218,3 +218,18 @@ Downloads per day, last 30 days:
 Downloads per day, specific 30 day period:
 
 > [`http://cranlogs.r-pkg.org/downloads/daily/2014-01-03:2014-02-03/ggplot2`](http://cranlogs.r-pkg.org/downloads/daily/2014-01-03:2014-02-03/ggplot2)
+
+#### Downloads of R
+
+If instead of a list of package, `R` is given, downloads of R are
+returned. For `total`, the total number of downloads for a given
+period. For `daily`, daily downloads, separately for various
+operating systems and R versions. Here are some examples:
+
+Last day, separately for R versions and operating systems:
+
+> [`http://cranlogs.r-pkg.org/downloads/daily/last-day/R`](http://cranlogs.r-pkg.org/downloads/daily/last-day/R)
+
+Total number of downloads last week:
+
+> [`http://cranlogs.r-pkg.org/downloads/total/last-week/R`](http://cranlogs.r-pkg.org/downloads/total/last-week/R)
