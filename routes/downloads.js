@@ -8,14 +8,17 @@ var re_pre = '^\\/(total|daily)\\/';
 var re_key = 'last-day|last-week|last-month'
 var re_date = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';
 var re_dates = re_date + ':' + re_date;
-var re_int = '(' + re_key + '|' + re_date + '|' + re_dates + ')';
+var re_date_until = re_date + ':' + 'last-day';
+var re_int = '(' + re_key + '|' + re_date + '|' + re_dates +
+    '|' + re_date_until + ')';
 var re_pkg = '(?:\\/([\\w\\.,]+))?';
 var re_suf = '$';
 var re_full = new RegExp(re_pre + re_int + re_pkg + re_suf, 'i');
 
 router.get(re_full, function(req, res) {
     var which = req.params[0];
-    var interval = req.params[1];
+    var interval = normalize_interval(req.params[1]);
+    console.log(interval);
     var package = req.params[2] &&
 	req.params[2]
 	.split(',')
@@ -67,7 +70,7 @@ function do_pkg_query(res, which, interval, package, client, done) {
 	    if (err) {
 		done();
 		res.set(500);
-		res.end('{ "error": Cannot query DB", ' +
+		res.end('{ "error": "Cannot query DB", ' +
 			'  "email": "csardi.gabor+cranlogs@gmail.com" }');
 		return true;
 	    }
@@ -88,5 +91,13 @@ router.get(/.*/, function(req, res) {
     res.end('{ "error": "Invalid query", ' +
 	    '  "info": "https://github.com/metacran/cranlogs.app" }');
 });
+
+function normalize_interval(interval) {
+    // All we do currently is replacing last-day with the current date
+    var today = new Date();
+    var iso_today = today.getFullYear() + '-' + (today.getMonth() + 1) +
+	'-' + today.getDate();
+    return interval.replace('last-day', iso_today);
+}
 
 module.exports = router;
