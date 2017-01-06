@@ -16,8 +16,8 @@ router.get('/', function(req, res) {
 
     res.set('Content-Type', 'application/json')
 	.set(200)
-	.end('{ "operation": "ping",' +
-             '  "message": "Thanks! Live long and prosper!" }');
+	.send('{ "operation": "ping",' +
+              '  "message": "Thanks! Live long and prosper!" }');
 
     update_pkg_db();
     update_r_db();
