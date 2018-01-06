@@ -9,8 +9,8 @@ var update_r_db_day = require('../lib/update_r_db_day');
 
 var conString = process.env.DATABASE_URL;
 
-var base_url = 'http://cran-logs.rstudio.com/2017/<date>.csv.gz';
-var r_base_url = 'http://cran-logs.rstudio.com/2017/<date>-r.csv.gz';
+var base_url = 'http://cran-logs.rstudio.com/2018/<date>.csv.gz';
+var r_base_url = 'http://cran-logs.rstudio.com/2018/<date>-r.csv.gz';
 
 router.get('/', function(req, res) {
 
