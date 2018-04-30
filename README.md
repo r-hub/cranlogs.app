@@ -5,6 +5,8 @@
 
 The download count data was provided by the
 [RStudio CRAN mirror](http://cran-logs.rstudio.com/).
+The data source is updated daily, and cranlogs tries to update hourly.
+
 The output is JSON. The API was inspired by the
 [`download-counts` npm package](https://github.com/npm/download-counts),
 and adapted to R.
