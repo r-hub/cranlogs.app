@@ -1,11 +1,11 @@
 #! /bin/bash
 
 # RStudio base URL
-url='http://cran-logs.rstudio.com/2015/<date>.csv.gz'
+url='http://cran-logs.rstudio.com/2018/<date>.csv.gz'
 
 # Last day in the DB
 max_day=$(echo 'SELECT MAX(day) FROM daily;' |
-          dokku psql:restore_sql cranlogs |
+          dokku postgres:connect cranlogs |
 	  grep '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]')
 
 # Start here
@@ -39,7 +39,7 @@ function do_day() {
     echo '\.' >>$filename2
 
     echo -n " adding"
-    dokku psql:restore_sql cranlogs < $filename2
+    dokku postgres:connect cranlogs < $filename2
 
     echo -n " cleaning"
     rm -f $filename $filename2
