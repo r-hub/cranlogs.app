@@ -47,7 +47,7 @@ function do_day() {
 }
 
 # Iterate over all days 
-until [ "$day" == "$today" ]
+while [[ "$day" < "$today" ]]
 do
     do_day $day
     day=$(/bin/date --date "$day 1 day" +%Y-%m-%d)
