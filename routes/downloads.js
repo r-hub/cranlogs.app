@@ -81,8 +81,43 @@ function do_pkg_query(res, which, interval, package, client, done) {
     })
 }
 
+router.get("/monthly-totals", function(req, res) {
+    pg.connect(conString, function(err, client, done) {
+
+	if (err) {
+	    done(client);
+	    res.set(500);
+	    res.end('{ "error": "Cannot connect to DB",' +
+                    '  "email": "csardi.gabor+cranlogs@gmail.com" }');
+	    return true;
+	}
+
+	var q =
+	    'SELECT package, SUM(count) AS count ' +
+	    'FROM daily ' +
+	    'WHERE day > CURRENT_DATE - INTERVAL \'30 days\' ' +
+	    'GROUP BY package ORDER BY count DESC';
+
+	client.query(q, function(err, result) {
+	    if (err) {
+		done();
+		res.set(500);
+		res.end('{ "error": "Cannot query DB", ' +
+			'  "email": "csardi.gabor+cranlogs@gmail.com" }');
+		return true;
+	    }
+
+	    res.set(200);
+	    res.send(result.rows);
+	    res.end();
+	    done();
+	});
+
+    });
+});
+
 router.get('/', function(req, res) {
-    res.set('Content-Type', 'application/json');    
+    res.set('Content-Type', 'application/json');
     res.send('{ "info": "https://github.com/metacran/cranlogs.app" }');
 });
 
