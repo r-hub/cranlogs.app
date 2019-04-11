@@ -129,6 +129,9 @@ router.get(/.*/, function(req, res) {
 
 function normalize_interval(interval) {
     // All we do currently is replacing last-day with the current date
+    // But not for the 'last-day' interval, because that is supported
+    // by the DB natively.
+    if (interval === 'last-day') { return('last-day'); }
     var today = new Date();
     var iso_today = today.getFullYear() + '-' + (today.getMonth() + 1) +
 	'-' + today.getDate();
