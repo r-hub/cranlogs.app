@@ -1,7 +1,7 @@
 
 # The API of the CRAN downloads database
 
-#### General remarks
+## General remarks
 
 The download count data was provided by the
 [RStudio CRAN mirror](http://cran-logs.rstudio.com/).
@@ -11,56 +11,19 @@ The output is JSON. The API was inspired by the
 [`download-counts` npm package](https://github.com/npm/download-counts),
 and adapted to R.
 
-#### Badges `/badges[/{summary}]/{package}[?color={color}]`
+The service also provides [badges for READMEs](#badges).
 
-Returns an SVG badge with download counts. Monthly, weekly and daily
-summaries and the total number of downloads are available.
-If the summary type is not given, the number of downloads per month is shown:
+There is [an official R client for the API, the `cranlogs` package](https://r-hub.github.io/cranlogs/).
 
-> `http://cranlogs.r-pkg.org/badges/Rcpp`
->
-> ![](http://cranlogs.r-pkg.org/badges/Rcpp)
+This README documents
 
-Weekly downloads are shown with `last-week`:
+* [the web API endpoints, data formats, parameters](#web-api-docs)
 
-> `http://cranlogs.r-pkg.org/badges/last-week/Rcpp`
->
-> ![](http://cranlogs.r-pkg.org/badges/last-week/Rcpp)
+* [the available badges](#badges)
 
-Daily downloads are shown with `last-day`:
+## Web API docs
 
-> `http://cranlogs.r-pkg.org/badges/last-day/Rcpp`
->
-> ![](http://cranlogs.r-pkg.org/badges/last-day/Rcpp)
-
-Total number of downloads since October of 2012, the month the
-[RStudio CRAN mirror](http://cran-logs.rstudio.com/) started publishing
-logs, with `grand-total`:
-
-> `http://cranlogs.r-pkg.org/badges/grand-total/Rcpp`
->
-> ![](http://cranlogs.r-pkg.org/badges/grand-total/Rcpp)
-
-Colors can be customized. Supported color names are:
-`brightgreen`, `green`, `yellowgreen`, `yellow`, `orange`,
-`red`, `lightgrey`, `blue`. Hex colors are also supported.
-The badge is blue by default, as above. Other colors in
-the same order, and the hex color `ff69b4`:
-
-> `http://cranlogs.r-pkg.org/badges/Rcpp?color=brightgreen`
->
-> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=brightgreen)
-> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=green)
-> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=yellowgreen)
-> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=yellow)
-> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=orange)
-> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=red)
-> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=lightgrey)
-> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=ff69b4)
-
-Our badges were designed and created by [shields.io](http://shields.io).
-
-#### Top downloaded packages `/top/{period}[/count]`
+### Top downloaded packages `/top/{period}[/count]`
 
 `period` must be one of `last-day`, `last-week` or `last-month`, and `count` is the 
 number of packages to show. `count` can be at most 100 currently. Example output for
@@ -87,7 +50,7 @@ number of packages to show. `count` can be at most 100 currently. Example output
 }
 ```
 
-#### Trending packages last week `/trending`
+### Trending packages last week `/trending`
 
 Treding packages are the ones that were downloaded at least 1000 times during last 
 week, and that substantially increased their download counts, compared to the 
@@ -112,7 +75,7 @@ is also shown in the output:
 ```
 
 
-#### Total downloads over a period `/downloads/total/{period}[/{package1,package2,...}]`
+### Total downloads over a period `/downloads/total/{period}[/{package1,package2,...}]`
 
 The output looks like this:
 
@@ -175,7 +138,7 @@ in which case it is the day before.
 
 `last-month` Last 30 available days.
 
-#### Daily downloads `/downloads/daily/{period}[/{package}]`
+### Daily downloads `/downloads/daily/{period}[/{package}]`
 
 Output looks like this:
 
@@ -221,7 +184,7 @@ Downloads per day, specific 30 day period:
 
 > [`http://cranlogs.r-pkg.org/downloads/daily/2014-01-03:2014-02-03/ggplot2`](http://cranlogs.r-pkg.org/downloads/daily/2014-01-03:2014-02-03/ggplot2)
 
-#### Downloads of R
+### Downloads of R
 
 If instead of a list of package, `R` is given, downloads of R are
 returned. For `total`, the total number of downloads for a given
@@ -235,3 +198,56 @@ Last day, separately for R versions and operating systems:
 Total number of downloads last week:
 
 > [`http://cranlogs.r-pkg.org/downloads/total/last-week/R`](http://cranlogs.r-pkg.org/downloads/total/last-week/R)
+
+
+## Badges 
+
+> `/badges[/{summary}]/{package}[?color={color}]`
+
+Returns an SVG badge with download counts. Monthly, weekly and daily
+summaries and the total number of downloads are available.
+If the summary type is not given, the number of downloads per month is shown:
+
+> `http://cranlogs.r-pkg.org/badges/Rcpp`
+>
+> ![](http://cranlogs.r-pkg.org/badges/Rcpp)
+
+Weekly downloads are shown with `last-week`:
+
+> `http://cranlogs.r-pkg.org/badges/last-week/Rcpp`
+>
+> ![](http://cranlogs.r-pkg.org/badges/last-week/Rcpp)
+
+Daily downloads are shown with `last-day`:
+
+> `http://cranlogs.r-pkg.org/badges/last-day/Rcpp`
+>
+> ![](http://cranlogs.r-pkg.org/badges/last-day/Rcpp)
+
+Total number of downloads since October of 2012, the month the
+[RStudio CRAN mirror](http://cran-logs.rstudio.com/) started publishing
+logs, with `grand-total`:
+
+> `http://cranlogs.r-pkg.org/badges/grand-total/Rcpp`
+>
+> ![](http://cranlogs.r-pkg.org/badges/grand-total/Rcpp)
+
+Colors can be customized. Supported color names are:
+`brightgreen`, `green`, `yellowgreen`, `yellow`, `orange`,
+`red`, `lightgrey`, `blue`. Hex colors are also supported.
+The badge is blue by default, as above. Other colors in
+the same order, and the hex color `ff69b4`:
+
+> `http://cranlogs.r-pkg.org/badges/Rcpp?color=brightgreen`
+>
+> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=brightgreen)
+> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=green)
+> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=yellowgreen)
+> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=yellow)
+> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=orange)
+> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=red)
+> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=lightgrey)
+> ![](http://cranlogs.r-pkg.org/badges/Rcpp?color=ff69b4)
+
+Our badges were designed and created by [shields.io](http://shields.io).
+
