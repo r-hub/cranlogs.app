@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # RStudio base URL
-url='http://cran-logs.rstudio.com/2020/<date>.csv.gz'
+url='http://cran-logs.rstudio.com/2022/<date>.csv.gz'
 
 # Last day in the DB
 max_day=$(echo 'SELECT MAX(day) FROM daily;' |
