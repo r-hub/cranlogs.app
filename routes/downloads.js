@@ -122,8 +122,8 @@ router.get('/', function(req, res) {
 });
 
 router.get(/.*/, function(req, res) {
-    res.set(404, 'Content-Type', 'application/json');
-    res.end('{ "error": "Invalid query", ' +
+    res.set('Content-Type', 'application/json');
+    res.status(404).end('{ "error": "Invalid query", ' +
 	    '  "info": "https://github.com/metacran/cranlogs.app" }');
 });
 
