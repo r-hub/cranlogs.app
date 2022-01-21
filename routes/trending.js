@@ -25,7 +25,7 @@ router.get(re_full, function(req, res) {
 	    }
 
 	    done(client);
-	    res.set(200);
+	    res.status(200);
 	    res.end(JSON.stringify(result['rows']));
 
 	});
@@ -36,7 +36,7 @@ router.get(re_full, function(req, res) {
 
 function handle_error(client, done, res) {
     done(client);
-    res.set(500);
+    res.status(500);
     res.end('{ "error": "Cannot connect to DB",' +
             '  "email": "csardi.gabor+cranlogs@gmail.com" }');
 }

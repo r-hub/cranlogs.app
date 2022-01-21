@@ -32,7 +32,7 @@ function do_query(res, which, interval, package) {
 
 	if (err) {
 	    done(client);
-	    res.set(500);
+	    res.status(500);
 	    res.end('{ "error": "Cannot connect to DB",' +
                     '  "email": "csardi.gabor+cranlogs@gmail.com" }');
 	    return true;
@@ -56,7 +56,7 @@ function do_pkg_query(res, which, interval, package, client, done) {
 	allres.push(result)
 	if (allres.length == reslen) {
 	    done()
-	    res.set(200)
+	    res.status(200)
 	    res.send(allres)
 	    res.end();
 	}
@@ -69,7 +69,7 @@ function do_pkg_query(res, which, interval, package, client, done) {
 	client.query(q, function(err, result) {
 	    if (err) {
 		done();
-		res.set(500);
+		res.status(500);
 		res.end('{ "error": "Cannot query DB", ' +
 			'  "email": "csardi.gabor+cranlogs@gmail.com" }');
 		return true;
@@ -86,7 +86,7 @@ router.get("/monthly-totals", function(req, res) {
 
 	if (err) {
 	    done(client);
-	    res.set(500);
+	    res.status(500);
 	    res.end('{ "error": "Cannot connect to DB",' +
                     '  "email": "csardi.gabor+cranlogs@gmail.com" }');
 	    return true;
@@ -101,13 +101,13 @@ router.get("/monthly-totals", function(req, res) {
 	client.query(q, function(err, result) {
 	    if (err) {
 		done();
-		res.set(500);
+		res.status(500);
 		res.end('{ "error": "Cannot query DB", ' +
 			'  "email": "csardi.gabor+cranlogs@gmail.com" }');
 		return true;
 	    }
 
-	    res.set(200);
+	    res.status(200);
 	    res.send(result.rows);
 	    res.end();
 	    done();

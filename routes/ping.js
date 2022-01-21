@@ -15,7 +15,7 @@ var r_base_url = 'http://cran-logs.rstudio.com/2022/<date>-r.csv.gz';
 router.get('/', function(req, res) {
 
     res.set('Content-Type', 'application/json')
-	.set(200)
+	.status(200)
 	.send('{ "operation": "ping",' +
               '  "message": "Thanks! Live long and prosper!" }');
 

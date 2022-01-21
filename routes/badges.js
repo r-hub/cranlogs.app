@@ -86,7 +86,7 @@ function do_query(res, package, interval, query) {
 
 	if (err) {
 	    done(client);
-	    res.set(500);
+	    res.status(500);
 	    res.end('{ "error": "Cannot connect to DB",' +
                     '  "email": "csardi.gabor+cranlogs@gmail.com" }');
 	    return true;
@@ -107,7 +107,7 @@ function do_total(res, client, package, done, query) {
     client.query(q, function(err, result) {
 	if (err) {
 	    done();
-	    res.set(500);
+	    res.status(500);
 	    res.end('{ "error": Cannot query DB", ' +
 		    '  "email": "csardi.gabor+cranlogs@gmail.com" }');
 	    return true;
@@ -120,7 +120,7 @@ function do_total(res, client, package, done, query) {
 
 	done();
 
-	res.set(200);
+	res.status(200);
 	res.send(svg);
 	res.end();
     });
@@ -134,7 +134,7 @@ function do_interval(res, client, package, interval, done, query) {
     client.query(q, function(err, result) {
 	if (err) {
 	    done();
-	    res.set(500);
+	    res.status(500);
 	    res.end('{ "error": Cannot query DB", ' +
 		    '  "email": "csardi.gabor+cranlogs@gmail.com" }');
 	    return true;
@@ -148,7 +148,7 @@ function do_interval(res, client, package, interval, done, query) {
 
 	done();
 
-	res.set(200);
+	res.status(200);
 	res.send(svg);
 	res.end();
 

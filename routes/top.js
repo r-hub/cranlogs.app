@@ -50,7 +50,7 @@ function do_query(req, res, interval, howmany) {
 			   'end': end,
 			   'downloads': downloads };
 	    
-	    res.set(200)
+	    res.status(200)
 	    res.end(JSON.stringify(resobj))
 	    
 	});
@@ -60,7 +60,7 @@ function do_query(req, res, interval, howmany) {
 
 function handle_error(client, done, res) {
     done(client);
-    res.set(500);
+    res.status(500);
     res.end('{ "error": "Cannot connect to DB",' +
             '  "email": "csardi.gabor+cranlogs@gmail.com" }');
 }
