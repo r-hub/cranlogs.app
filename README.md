@@ -52,7 +52,7 @@ number of packages to show. `count` can be at most 100 currently. Example output
 
 ### Trending packages last week `/trending`
 
-Treding packages are the ones that were downloaded at least 1000 times during last 
+Trending packages are the ones that were downloaded at least 1000 times during last 
 week, and that substantially increased their download counts, compared to the 
 average weekly downloads in the previous 24 weeks. The percentage of increase
 is also shown in the output:
