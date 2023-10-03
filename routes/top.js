@@ -26,7 +26,7 @@ function do_query(req, res, interval, howmany) {
 	}
 
 	var table = interval.replace(/^last-/, 'top_');
-	var q = 'SELECT *, cl_get_period(\'' + interval + '\') FROM ' +
+	var q = 'SELECT *, cl_get_period(\'' + interval + '2\') FROM ' +
 	    table + ' LIMIT ' + howmany;
 
 	console.log(q)

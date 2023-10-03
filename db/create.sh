@@ -15,7 +15,7 @@ EOF
 echo "$CREATE_DB" | dokku psql:restore_sql $APP
 
 read -r -d '' ADD_VIEWS <<'EOF'
-CREATE MATERIALIZED VIEW top_day AS
+CREATE MATERIALIZED VIEW top_day2 AS
 SELECT package, SUM(count) AS downloads FROM daily
   WHERE day >= (SELECT (cl_get_period('last-day'))[1])
     AND day <  (SELECT (cl_get_period('last-day'))[3])
@@ -23,7 +23,7 @@ SELECT package, SUM(count) AS downloads FROM daily
   ORDER BY downloads DESC
   LIMIT 100;
 
-CREATE MATERIALIZED VIEW top_week AS
+CREATE MATERIALIZED VIEW top_week2 AS
 SELECT package, SUM(count) AS downloads FROM daily
   WHERE day >= (SELECT (cl_get_period('last-week'))[1])
     AND day <  (SELECT (cl_get_period('last-week'))[3])
@@ -31,7 +31,7 @@ SELECT package, SUM(count) AS downloads FROM daily
   ORDER BY downloads DESC
   LIMIT 100;
 
-CREATE MATERIALIZED VIEW top_month AS
+CREATE MATERIALIZED VIEW top_month2 AS
 SELECT package, SUM(count) AS downloads FROM daily
   WHERE day >= (SELECT (cl_get_period('last-month'))[1])
     AND day <  (SELECT (cl_get_period('last-month'))[3])
@@ -39,7 +39,7 @@ SELECT package, SUM(count) AS downloads FROM daily
   ORDER BY downloads DESC
   LIMIT 100;
 
-CREATE MATERIALIZED VIEW trending AS
+CREATE MATERIALIZED VIEW trending2 AS
 SELECT t1.package, 24 * t1.cnt / t2.cnt * 100 AS increase FROM
   (SELECT package, SUM(count) AS cnt
     FROM daily
@@ -59,10 +59,10 @@ SELECT t1.package, 24 * t1.cnt / t2.cnt * 100 AS increase FROM
 CREATE OR REPLACE FUNCTION refresh_views() RETURNS trigger AS
 $$
 BEGIN
-    REFRESH MATERIALIZED VIEW top_day;
-    REFRESH MATERIALIZED VIEW top_week;
-    REFRESH MATERIALIZED VIEW top_month;
-    REFRESH MATERIALIZED VIEW trending;
+    REFRESH MATERIALIZED VIEW top_day2;
+    REFRESH MATERIALIZED VIEW top_week2;
+    REFRESH MATERIALIZED VIEW top_month2;
+    REFRESH MATERIALIZED VIEW trending2;
     RETURN NULL;
 END;
 $$
