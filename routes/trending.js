@@ -16,7 +16,7 @@ router.get(re_full, function(req, res) {
 	    return  true
 	}
 
-	var q = 'SELECT * FROM trending';
+	var q = 'SELECT * FROM trending2';
 
 	client.query(q, function(err, result) {
 	    if (err) {
