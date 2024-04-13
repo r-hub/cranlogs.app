@@ -28,10 +28,6 @@ app.set('views', path.join(__dirname, 'views'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 
-// create a write stream (in append mode)
-var accessLogStream = fs.createWriteStream(__dirname + '/access.log',
-					   {flags: 'a'});
-app.use(logger('combined', {stream: accessLogStream}));
 app.use(logger('combined'));
 
 app.use(bodyParser.json());

@@ -10,6 +10,10 @@ services:
     command: nodemon bin/www.js
     volumes:
       - .:/src
+    environment:
+      - PG_HOST=postgres
+      - PG_PORT=5432
+      - PG_PASSWORD=secret
 
   postgres:
     image: "postgres:16.2-bookworm"
@@ -22,3 +26,5 @@ services:
       - dbdata:/var/lib/postgresql
       - ./db/1-proc.sql:/docker-entrypoint-initdb.d/1-proc.sql
       - ./db/2-create.sql:/docker-entrypoint-initdb.d/2-create.sql
+      - ./db/3-data.sql:/docker-entrypoint-initdb.d/3-data.sql
+      - ./sampledata:/sampledata
