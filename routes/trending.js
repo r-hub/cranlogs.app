@@ -1,6 +1,6 @@
-var express = require('express');
+import express from 'express';
 var router = express.Router();
-var pg = require('pg');
+import pg from 'pg';
 
 var conString = process.env.DATABASE_URL;
 
@@ -41,4 +41,4 @@ function handle_error(client, done, res) {
             '  "email": "csardi.gabor+cranlogs@gmail.com" }');
 }
 
-module.exports = router;
+export default router;

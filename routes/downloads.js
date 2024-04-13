@@ -1,6 +1,6 @@
-var express = require('express');
+import express from 'express';
 var router = express.Router();
-var pg = require('pg');
+import pg from 'pg';
 
 var conString = process.env.DATABASE_URL;
 
@@ -19,15 +19,15 @@ router.get(re_full, function(req, res) {
     var which = req.params[0];
     var interval = normalize_interval(req.params[1]);
     console.log(interval);
-    var package = req.params[2] &&
+    var pkg = req.params[2] &&
 	req.params[2]
 	.split(',')
 	.map(function(x) { return "'" + x + "'" });
     res.set('Content-Type', 'application/json');
-    do_query(res, which, interval, package);
+    do_query(res, which, interval, pkg);
 });
 
-function do_query(res, which, interval, package) {
+function do_query(res, which, interval, pkg) {
     pg.connect(conString, function(err, client, done) {
 
 	if (err) {
@@ -39,19 +39,19 @@ function do_query(res, which, interval, package) {
 	}
 
 	// Remove 'R' if not by itself
-	if (package && package.length &&
-	    (package.length != 1 || package[0] != 'R')) {
-	    package = package.filter(function(x) { return x != 'R'; });
+	if (pkg && pkg.length &&
+	    (pkg.length != 1 || pkg[0] != 'R')) {
+	    pkg = pkg.filter(function(x) { return x != 'R'; });
 	}
 
-	do_pkg_query(res, which, interval, package, client, done);
+	do_pkg_query(res, which, interval, pkg, client, done);
     });
 }
 
-function do_pkg_query(res, which, interval, package, client, done) {
+function do_pkg_query(res, which, interval, pkg, client, done) {
 
     var allres = [ ]
-    var reslen = package ? package.length : 1
+    var reslen = pkg ? pkg.length : 1
     function save_result(result) {
 	allres.push(result)
 	if (allres.length == reslen) {
@@ -63,7 +63,7 @@ function do_pkg_query(res, which, interval, package, client, done) {
     }
 
     var fun = which == 'total' ? 'cl_total_json' : 'cl_daily_json';
-    (package || ['NULL']).map(function(pkg) {
+    (pkg || ['NULL']).map(function(pkg) {
 	var q = 'SELECT ' + fun + '(\'' + interval + '\', ' + pkg + ')';
 
 	client.query(q, function(err, result) {
@@ -138,4 +138,4 @@ function normalize_interval(interval) {
     return interval.replace('last-day', iso_today);
 }
 
-module.exports = router;
+export default router;

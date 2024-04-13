@@ -1,7 +1,7 @@
-var express = require('express');
+import express from 'express';
 var router = express.Router();
-var pg = require('pg');
-var multiline = require('multiline');
+import pg from 'pg';
+import multiline from 'multiline';
 
 var conString = process.env.DATABASE_URL;
 
@@ -65,17 +65,17 @@ var re_old = new RegExp(re_pre + re_pkg + re_suf, 'i');
 
 router.get(re_full, function(req, res) {
     var interval = req.params[0];
-    var package = req.params[1] || req.params[0];
-    do_query(res, package, interval, req.query);
+    var pkg = req.params[1] || req.params[0];
+    do_query(res, pkg, interval, req.query);
 });
 
 router.get(re_old, function(req, res) {
-    var package = req.params[0];
+    var pkg = req.params[0];
     var interval = 'last-month';
-    do_query(res, package, interval, req.query);
+    do_query(res, pkg, interval, req.query);
 });
 
-function do_query(res, package, interval, query) {
+function do_query(res, pkg, interval, query) {
 
     var now = new Date().toUTCString();
     res.set('Content-Type', 'image/svg+xml');
@@ -93,17 +93,17 @@ function do_query(res, package, interval, query) {
 	}
 
 	if (interval == "grand-total") {
-	    do_total(res, client, package, done, query)
+	    do_total(res, client, pkg, done, query)
 	} else {
-	    do_interval(res, client, package, interval, done, query)
+	    do_interval(res, client, pkg, interval, done, query)
 	}
     });
 }
 
-function do_total(res, client, package, done, query) {
+function do_total(res, client, pkg, done, query) {
 
     var q = 'SELECT SUM(count) FROM DAILY WHERE package = \'' +
-	package + '\'';
+	pkg + '\'';
     client.query(q, function(err, result) {
 	if (err) {
 	    done();
@@ -126,10 +126,10 @@ function do_total(res, client, package, done, query) {
     });
 }
 
-function do_interval(res, client, package, interval, done, query) {
+function do_interval(res, client, pkg, interval, done, query) {
 
     var q = 'SELECT cl_total_json(\'' + interval + '\', \'' +
-	package + '\')';
+	pkg + '\')';
 
     client.query(q, function(err, result) {
 	if (err) {
@@ -166,7 +166,7 @@ function svg_template(svg, params, query) {
     var color = query['color'] || "blue";
     color = svg_colors[color] || color;
     svg = svg.replace(/:color:/g, '#' + color.replace(/[^\w]/g, ''));
-    
+
     return svg;
 }
 
@@ -179,4 +179,4 @@ function pretty_count(sum) {
     return sum
 }
 
-module.exports = router;
+export default router;

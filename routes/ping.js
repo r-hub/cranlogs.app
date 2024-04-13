@@ -1,11 +1,11 @@
-var express = require('express');
+import express from 'express';
 var router = express.Router();
-var async = require('async');
+import async from 'async';
 
-var last_pkg = require('../lib/last_pkg');
-var missing_urls = require('../lib/missing_urls');
-var update_pkg_db_day = require('../lib/update_pkg_db_day');
-var update_r_db_day = require('../lib/update_r_db_day');
+import last_pkg from '../lib/last_pkg.js';
+import missing_urls from '../lib/missing_urls.js';
+import update_pkg_db_day from '../lib/update_pkg_db_day.js';
+import update_r_db_day from '../lib/update_r_db_day.js';
 
 var conString = process.env.DATABASE_URL;
 
@@ -43,4 +43,4 @@ function update_r_db() {
     });
 }
 
-module.exports = router;
+export default router;

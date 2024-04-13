@@ -1,19 +1,23 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var fs = require('fs')
-var whiskers = require('whiskers');
+import express from 'express';
+import path from 'path';
+import favicon from 'serve-favicon';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import fs from 'fs';
+import whiskers from 'whiskers';
 
-var downloads = require('./routes/downloads');
-var top       = require('./routes/top');
-var trending  = require('./routes/trending');
-var badges    = require('./routes/badges');
-var index     = require('./routes/index');
-var ping      = require('./routes/ping');
-var check     = require('./routes/check');
+import downloads from './routes/downloads.js';
+import top       from './routes/top.js';
+import trending  from './routes/trending.js';
+import badges    from './routes/badges.js';
+import index     from './routes/index.js';
+import ping      from './routes/ping.js';
+import check     from './routes/check.js';
+
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 var app = express();
 
@@ -68,5 +72,4 @@ app.use(function(err, req, res, next) {
     next(err);
 });
 
-
-module.exports = app;
+export default app;

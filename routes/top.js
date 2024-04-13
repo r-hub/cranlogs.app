@@ -1,6 +1,6 @@
-var express = require('express');
+import express from 'express';
 var router = express.Router();
-var pg = require('pg');
+import pg from 'pg';
 
 var conString = process.env.DATABASE_URL;
 
@@ -30,7 +30,7 @@ function do_query(req, res, interval, howmany) {
 	    table + ' LIMIT ' + howmany;
 
 	console.log(q)
-	
+
 	client.query(q, function(err, result) {
 	    if (err) {
 		handle_error(client, done, res)
@@ -45,14 +45,14 @@ function do_query(req, res, interval, howmany) {
 		function(x) { return { 'package': x['package'],
 				       'downloads': x['downloads'] }
 			    });
-	    
+
 	    var resobj = { 'start': start,
 			   'end': end,
 			   'downloads': downloads };
-	    
+
 	    res.status(200)
 	    res.end(JSON.stringify(resobj))
-	    
+
 	});
 
     });
@@ -65,4 +65,4 @@ function handle_error(client, done, res) {
             '  "email": "csardi.gabor+cranlogs@gmail.com" }');
 }
 
-module.exports = router;
+export default router;
