@@ -20,7 +20,7 @@ router.get(re_full, async function (req, res, next) {
 });
 
 async function do_query(req, res, interval, howmany) {
-	const table = interval.replace(/^last-/, 'top_') + '2';
+	const table = interval.replace(/^last-/, 'top_');
 	const q = 'SELECT *, cl_get_period(\'' + interval + '\') FROM ' +
 		table + ' LIMIT ' + howmany;
 
