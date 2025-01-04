@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # RStudio base URL
-url='http://cran-logs.rstudio.com/2024/<date>.csv.gz'
+url='http://cran-logs.rstudio.com/<year>/<date>.csv.gz'
 
 # Last day in the DB
 max_day=$(echo 'SELECT MAX(day) FROM daily;' |
@@ -19,9 +19,10 @@ function do_day() {
     day=$1
     filename=$day.csv.gz
     trap "rm -f $filename" EXIT
-    
+
+    year="$(echo $day | cut -f1 -d-)"
     echo -n "Downloading $day,"
-    curl -f -s -O $(echo $url | sed "s/<date>/$day/") || return
+    curl -f -s -O $(echo $url | sed "s/<year>/$year/" | sed "s/<date>/$day/") || return
 
     echo -n " parsing"
     filename2=$day.sql
